@@ -31,17 +31,18 @@ left_time = right_time = 0
 
 def pressed(button):
     global winner_declared, left_score, right_score, left_time, right_time
-    if winner_declared:
-        return
-    winner_declared = True
     if button.pin.number == 14:
-        print("<%s won the game>" % (left_name))
-        left_score += 1
+        if winner_declared == False:
+            print("<%s won the game>" % (left_name))
+            left_score += 1
         left_time = time()
+        winner_declared = True
     elif button.pin.number == 15:
-        print("<%s won the game>" % (right_name))
-        right_score += 1
+        if winner_declared == False:
+            print("<%s won the game>" % (right_name))
+            right_score += 1
         right_time = time()
+        winner_declared = True
 
 def get_option():
     option = int(input("[Enter your option]\n"))
@@ -80,7 +81,7 @@ while True:
     # Get the time when the light is off
     off_time = time()
 
-    sleep(1)
+    sleep(2)
     
     # Output the scores of each playe
     print("--------")
@@ -89,11 +90,12 @@ while True:
     print("<Score of %s: %d>" % (left_name, left_score))
     print("<Score of %s: %d>" % (right_name, right_score))
 
+    # Output the reaction time
     print("---------------")
     print(" Reaction Time ")
     print("---------------")
-    print("<Reaction time of %s: %.2f>" % (left_name, (off_time - left_time)))
-    print("<Reaction time of %s: %.2f>" % (right_name, (off_time - right_time)))
+    print("<Reaction time of %s: %.2f>" % (left_name, (left_time - off_time)))
+    print("<Reaction time of %s: %.2f>" % (right_name, (right_time - off_time)))
 
     # Ask user if they want to continue
     print("---------")
